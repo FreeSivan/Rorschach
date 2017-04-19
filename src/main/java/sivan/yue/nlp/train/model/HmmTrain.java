@@ -77,10 +77,9 @@ public class HmmTrain implements ITrain{
         showFeather.setMatrix(new SparseDMatrix(bNum, aNum));
         // yi, yi-1
         tranFeather.setMatrix(new SparseDMatrix(bNum, bNum));
-
         preRateTrain(org, aNum, bNum);
-
         trainModule(aNum, bNum);
+        export(dst);
     }
 
     @Override

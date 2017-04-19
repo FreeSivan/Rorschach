@@ -41,6 +41,7 @@ public class MeTrain implements ITrain{
         feathers.setMatrix(new SparseDMatrix(aNum, bNum));
         preRateTrain(org, aNum, bNum);
         trainModule(aNum, bNum);
+        export(dst);
     }
 
     @Override

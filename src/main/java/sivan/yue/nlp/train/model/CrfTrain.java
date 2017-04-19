@@ -65,6 +65,7 @@ public class CrfTrain implements ITrain{
         dFeather.setMatrix(new SparseDMatrix(aNum, bNum));
         preRateTrain(org, aNum, bNum);
         trainModule(aNum, bNum);
+        export(dst);
     }
 
     @Override

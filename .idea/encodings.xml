@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding" useUTFGuessing="true" native2AsciiForPropertiesFiles="false">
+    <file url="file://$PROJECT_DIR$/src/main/java/sivan/yue/nlp/common/dataAlgo/feather/IDFSets.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/sivan/yue/nlp/common/dataAlgo/feather/IDFeather.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/sivan/yue/nlp/common/dataAlgo/feather/ITFSets.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/sivan/yue/nlp/common/dataAlgo/feather/ITFeather.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/sivan/yue/nlp/common/dataAlgo/feather/meta/DMetaFeather.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/sivan/yue/nlp/common/dataAlgo/feather/meta/TMetaFeather.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/sivan/yue/nlp/common/dataAlgo/feather/model/DFeather.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/sivan/yue/nlp/common/dataAlgo/feather/model/TFeather.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/sivan/yue/nlp/common/dataAlgo/matrix/BaseDMatrix.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/sivan/yue/nlp/common/dataAlgo/matrix/BaseTMatrix.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/sivan/yue/nlp/common/dataAlgo/matrix/IDMatrix.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/sivan/yue/nlp/common/dataAlgo/matrix/ITMatrix.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/sivan/yue/nlp/common/dataAlgo/matrix/thrDimMatrix/DenseTMatrix.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/sivan/yue/nlp/common/dataAlgo/matrix/thrDimMatrix/SparseTMatrix.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/sivan/yue/nlp/common/dataAlgo/matrix/towDimMatrix/DenseDMatrix.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/sivan/yue/nlp/common/dataAlgo/matrix/towDimMatrix/SparseDMatrix.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/sivan/yue/nlp/common/dataAlgo/probability/IDRate.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/sivan/yue/nlp/common/dataAlgo/probability/ISRate.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/sivan/yue/nlp/common/dataAlgo/probability/ITRate.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/sivan/yue/nlp/common/dataAlgo/probability/model/ConditionalDRate.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/sivan/yue/nlp/common/dataAlgo/probability/model/ConditionalTRate.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/sivan/yue/nlp/common/dataAlgo/probability/model/IndependentRate.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/sivan/yue/nlp/common/dataAlgo/probability/model/JointMarginalRate.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/sivan/yue/nlp/common/dataAlgo/probability/model/MarkovChainRate.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/sivan/yue/nlp/common/dataAlgo/viterbi/BaseViterbi.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/sivan/yue/nlp/common/dataAlgo/viterbi/IViterbi.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/sivan/yue/nlp/common/dataAlgo/viterbi/module/CrfViterbi.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/sivan/yue/nlp/common/dataAlgo/viterbi/module/HmmViterbi.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/sivan/yue/nlp/common/dataAlgo/viterbi/module/MeViterbi.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/sivan/yue/nlp/common/dataAlgo/viterbi/module/MemmViterbi.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/sivan/yue/nlp/common/exception/AccessErrException.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/sivan/yue/nlp/common/exception/MatrixErrException.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/sivan/yue/nlp/common/exception/ParamErrException.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/sivan/yue/nlp/common/exception/StructErrException.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/sivan/yue/nlp/common/exception/ViterbiErrException.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/sivan/yue/nlp/common/tools/CConst.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/sivan/yue/nlp/common/tools/FileIteratorUtil.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/sivan/yue/nlp/common/tools/FileLineWriter.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/sivan/yue/nlp/parse/BaseParse.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/sivan/yue/nlp/parse/IParse.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/sivan/yue/nlp/parse/model/CrfParse.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/sivan/yue/nlp/parse/model/HmmParse.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/sivan/yue/nlp/parse/model/MeParse.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/sivan/yue/nlp/parse/model/MemmParse.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/sivan/yue/nlp/train/ITrain.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/sivan/yue/nlp/train/model/CrfTrain.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/sivan/yue/nlp/train/model/HmmTrain.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/sivan/yue/nlp/train/model/MeTrain.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/sivan/yue/nlp/train/model/MemmTrain.java" charset="GBK" />
+  </component>
+</project>
+
