@@ -104,11 +104,14 @@ public class MeTrain implements ITrain{
             Map<Integer, Map<Integer, Integer>> filter = new HashMap<>();
             for (String str : FileIteratorUtil.readLines(fileName)) {
                 String[] strArr = str.split("\\|");
-                if (strArr.length != 2) {
+                if (strArr.length != 3) {
                     continue;
                 }
                 int view = Integer.parseInt(strArr[0]);
                 int state = Integer.parseInt(strArr[1]);
+                if (view < 0 || state < 0) {
+                    continue;
+                }
                 if (filter.get(view) == null) {
                     feathers.addFeather(view, state);
                     Map<Integer, Integer> tmp = new HashMap<>();

@@ -16,20 +16,19 @@ public class FileIteratorUtil {
         final FileReader fr = new FileReader(filename);
 
         final BufferedReader br = new BufferedReader(fr);
-
         Iterable<String> result =  new Iterable<String>() {
 
             public Iterator<String> iterator() {
 
-                //·µ»ØÎÄ¼þµü´úÆ÷£¬ÊµÏÖµü´ú½Ó¿Ú¡£
+                //ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Êµï¿½Öµï¿½ï¿½ï¿½ï¿½Ó¿Ú¡ï¿½
                 return new Iterator<String>() {
 
                     public boolean hasNext() {
-                        //ÅÐ¶ÏÏÂÒ»ÐÐÊÇ·ñÎª¿Õ¡£
+                        //ï¿½Ð¶ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Ç·ï¿½Îªï¿½Õ¡ï¿½
                         return line != null;
                     }
 
-                    //·µ»Øµ±Ç°ÐÐ£¬Í¬Ê±¶ÁÈ¡ÎÄ¼þµÄÏÂÒ»ÐÐ×÷Îªµ±Ç°ÐÐ¡£
+                    //ï¿½ï¿½ï¿½Øµï¿½Ç°ï¿½Ð£ï¿½Í¬Ê±ï¿½ï¿½È¡ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½Ç°ï¿½Ð¡ï¿½
                     public String next() {
                         String retVal = line;
                         line = getLine();
@@ -41,11 +40,13 @@ public class FileIteratorUtil {
                     }
 
                     String getLine() {
-                        String line;
+                        String line = null;
                         try {
                             line = br.readLine();
+                            System.out.println("line = " + line);
                         }
                         catch (IOException ioEx) {
+                            ioEx.printStackTrace();
                             line = null;
                         }
                         return line;
@@ -55,8 +56,6 @@ public class FileIteratorUtil {
                 };
             }
         };
-        br.close();
-        fr.close();
         return result;
     }
 }
