@@ -26,7 +26,7 @@ public class HmmViterbi extends BaseViterbi{
         if (sRate == null || tRate == null) {
             throw new StructErrException("hmm viterbi error!");
         }
-        return curRate * sRate.rate(y0, y1) * sRate.rate(y1, x);
+        return curRate * tRate.rate(y0, y1) * sRate.rate(y1, x);
     }
 
     public ConditionalDRate getsRate() {

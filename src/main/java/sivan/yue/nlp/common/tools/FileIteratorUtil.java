@@ -43,7 +43,6 @@ public class FileIteratorUtil {
                         String line = null;
                         try {
                             line = br.readLine();
-                            System.out.println("line = " + line);
                         }
                         catch (IOException ioEx) {
                             ioEx.printStackTrace();

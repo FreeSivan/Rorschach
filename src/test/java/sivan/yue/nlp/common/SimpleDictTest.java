@@ -13,7 +13,6 @@ public class SimpleDictTest {
         try {
             SampleDict.instance.clearState();
             SampleDict.instance.clearView();
-            SampleDict.instance.loadViewDict("D:\\code\\myself\\Rorschach\\src\\main\\resources\\data\\dict\\0.txt",0);
             SampleDict.instance.loadViewDict("D:\\code\\myself\\Rorschach\\src\\main\\resources\\data\\dict\\1.txt",1);
             SampleDict.instance.loadViewDict("D:\\code\\myself\\Rorschach\\src\\main\\resources\\data\\dict\\2.txt",2);
             SampleDict.instance.loadViewDict("D:\\code\\myself\\Rorschach\\src\\main\\resources\\data\\dict\\3.txt",3);
@@ -23,10 +22,12 @@ public class SimpleDictTest {
             SampleDict.instance.loadViewDict("D:\\code\\myself\\Rorschach\\src\\main\\resources\\data\\dict\\7.txt",7);
             SampleDict.instance.loadViewDict("D:\\code\\myself\\Rorschach\\src\\main\\resources\\data\\dict\\8.txt",8);
             SampleDict.instance.loadViewDict("D:\\code\\myself\\Rorschach\\src\\main\\resources\\data\\dict\\9.txt",9);
+            SampleDict.instance.loadViewDict("D:\\code\\myself\\Rorschach\\src\\main\\resources\\data\\dict\\10.txt",10);
             SampleDict.instance.loadSample("D:\\code\\myself\\Rorschach\\src\\main\\resources\\data\\sample\\sample.txt",
                     "D:\\code\\myself\\Rorschach\\src\\main\\resources\\data\\sample\\me_test.txt");
-            SampleDict.instance.exportNum("D:\\code\\myself\\Rorschach\\src\\main\\resources\\data\\sample\\num.txt");
-            SampleDict.instance.exportInvert("D:\\code\\myself\\Rorschach\\src\\main\\resources\\data\\sample\\invert.txt");
+            SampleDict.instance.exportNum("D:\\code\\myself\\Rorschach\\src\\main\\resources\\data\\model\\num.txt");
+            SampleDict.instance.exportDict("D:\\code\\myself\\Rorschach\\src\\main\\resources\\data\\model\\dict.txt");
+            SampleDict.instance.exportInvert("D:\\code\\myself\\Rorschach\\src\\main\\resources\\data\\model\\invert.txt");
         } catch (IOException e) {
             e.printStackTrace();
         }

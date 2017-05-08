@@ -33,6 +33,7 @@ public abstract class BaseParse implements IParse{
             RandomAccessFile realFile = new RandomAccessFile(file, "r");
             stateNum = realFile.readInt();
             viewNum = realFile.readInt();
+            System.out.println("stateNum = " + stateNum + " | viewNum = " + viewNum);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {

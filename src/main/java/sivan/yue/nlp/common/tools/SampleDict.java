@@ -1,6 +1,9 @@
 package sivan.yue.nlp.common.tools;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.RandomAccessFile;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -53,6 +56,7 @@ public class SampleDict {
      * @throws java.io.IOException
      */
     public void loadViewDict(String fName, int num) throws IOException {
+        stateDict.put(fName, num);
         for (String str : FileIteratorUtil.readLines(fName)) {
             if (viewDict.get(str) != null) {
                 continue;
@@ -74,20 +78,6 @@ public class SampleDict {
                 continue;
             }
             lst.add(num);
-        }
-    }
-
-    /**
-     *
-     * @param fName
-     * @throws java.io.IOException
-     */
-    public void loadStateDict(String fName) throws IOException {
-        for (String str : FileIteratorUtil.readLines(fName)) {
-            if (stateDict.get(str) != null) {
-                continue;
-            }
-            stateDict.put(str, stateIndex++);
         }
     }
 
@@ -118,9 +108,26 @@ public class SampleDict {
     }
 
     public void exportNum(String numName) {
-        FileLineWriter fw = new FileLineWriter(numName);
-        fw.writeLine(""+stateDict.size());
-        fw.writeLine(""+viewDict.size());
+
+        try {
+            File file = new File(numName);
+            RandomAccessFile realFile = new RandomAccessFile(file, "rw");
+            realFile.writeInt(stateDict.size());
+            realFile.writeInt(viewDict.size());
+            realFile.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void exportDict(String dictName) {
+        FileLineWriter fw = new FileLineWriter(dictName);
+        for (Map.Entry<String, Integer> entry : viewDict.entrySet()) {
+            String line = entry.getKey() + "|" +entry.getValue();
+            fw.writeLine(line);
+        }
         fw.close();
     }
 
