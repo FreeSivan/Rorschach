@@ -61,12 +61,20 @@ public class MeTrain implements ITrain{
     }
 
     private void trainModule(int aNum, int bNum) {
+        int count = 0;
         while (condition()) {
             // 计算当前系数下的概率模型
+            long b = System.currentTimeMillis();
             for (int i = 0; i < aNum; ++i) {
                 int sum = 0;
                 for (int j = 0; j < bNum; ++j) {
-                    double val = Math.exp(feathers.lambda(i, j));
+                    double val;
+                    if (feathers.lambda(i, j) == 0) {
+                        val = 1;
+                    }
+                    else {
+                        val = Math.exp(feathers.lambda(i, j));
+                    }
                     conRate.setRate(i, j, val);
                     sum += val;
                 }
@@ -74,6 +82,9 @@ public class MeTrain implements ITrain{
                     conRate.setRate(i, j, conRate.rate(i, j)/sum);
                 }
             }
+            System.out.println("time = " + (System.currentTimeMillis() - b));
+
+            b = System.currentTimeMillis();
             // 迭代每一个特征
             for (DMetaFeather feather : feathers) {
                 int x = feather.getX();
@@ -84,6 +95,12 @@ public class MeTrain implements ITrain{
                 // 计算特征的模型期望
                 double rE = preRate.rate(x)*conRate.rate(x, y);
                 feathers.setLam(x, y, oldLam + Math.log(pE/rE));
+            }
+            System.out.println("time = " + (System.currentTimeMillis() - b));
+            count ++;
+            System.out.println("count = " + count);
+            if (count > 50) {
+                break;
             }
         }
     }
@@ -112,18 +129,18 @@ public class MeTrain implements ITrain{
                 if (view < 0 || state < 0) {
                     continue;
                 }
-                if (filter.get(view) == null) {
-                    feathers.addFeather(view, state);
+                if (filter.get(state) == null) {
+                    feathers.addFeather(state, view);
                     Map<Integer, Integer> tmp = new HashMap<>();
-                    tmp.put(state, 1);
-                    filter.put(view, tmp);
+                    tmp.put(view, 1);
+                    filter.put(state, tmp);
                 }
-                else if (filter.get(view).get(state) == null){
-                    feathers.addFeather(view, state);
-                    filter.get(view).put(state, 1);
+                else if (filter.get(state).get(view) == null){
+                    feathers.addFeather(state, view);
+                    filter.get(state).put(view, 1);
                 }
-                preRate.setRate(view, preRate.rate(view) + 1);
-                preRate.setRate(view, state, preRate.rate(view, state) + 1);
+                preRate.setRate(state, preRate.rate(state) + 1);
+                preRate.setRate(state, view, preRate.rate(state, view) + 1);
                 count ++;
             }
             for (int i = 0; i < aNum; ++i) {

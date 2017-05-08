@@ -61,22 +61,22 @@ public class HmmTrain implements ITrain{
 
     @Override
     public void train(String org, String dst, int aNum, int bNum) {
-        // yi, xi
-        showRate.setDRate(new SparseDMatrix(bNum, aNum));
-        // xi
-        showRate.setSRate(new SparseDMatrix(bNum, 1));
-        // yi-1, yi
-        tranRate.setDRate(new SparseDMatrix(bNum, bNum));
-        // yi-1
-        tranRate.setDRate(new SparseDMatrix(bNum, 1));
-        // yi-1, yi
-        tranRes.setRate(new SparseDMatrix(bNum, bNum));
-        // yi, xi
-        showRes.setRate(new SparseDMatrix(bNum, aNum));
-        // yi, xi
-        showFeather.setMatrix(new SparseDMatrix(bNum, aNum));
-        // yi, yi-1
-        tranFeather.setMatrix(new SparseDMatrix(bNum, bNum));
+        // state, view
+        showRate.setDRate(new SparseDMatrix(aNum, bNum));
+        // state
+        showRate.setSRate(new SparseDMatrix(aNum, 1));
+        // state, view
+        tranRate.setDRate(new SparseDMatrix(aNum, aNum));
+        // state
+        tranRate.setSRate(new SparseDMatrix(aNum, 1));
+        // state, state
+        tranRes.setRate(new SparseDMatrix(aNum, aNum));
+        // state, view
+        showRes.setRate(new SparseDMatrix(aNum, bNum));
+        // state, view
+        showFeather.setMatrix(new SparseDMatrix(aNum, bNum));
+        // state, state
+        tranFeather.setMatrix(new SparseDMatrix(aNum, aNum));
         preRateTrain(org, aNum, bNum);
         trainModule(aNum, bNum);
         export(dst);
@@ -111,17 +111,18 @@ public class HmmTrain implements ITrain{
     }
 
     private void trainModule(int aNum, int bNum) {
+        int count = 0;
         // 训练转移概率模型tranRes
         while (condition()) {
             // 计算当前系数下的概率模型
             for (int i = 0; i < aNum; ++i) {
                 int sum = 0;
-                for (int j = 0; j < bNum; ++j) {
+                for (int j = 0; j < aNum; ++j) {
                     double val = Math.exp(tranFeather.lambda(i, j));
                     tranRes.setRate(i, j, val);
                     sum += val;
                 }
-                for (int j = 0; j < bNum; ++j) {
+                for (int j = 0; j < aNum; ++j) {
                     tranRes.setRate(i, j, tranRes.rate(i, j)/sum);
                 }
             }
@@ -136,7 +137,13 @@ public class HmmTrain implements ITrain{
                 double rE = tranRate.rate(x)*tranRes.rate(x, y);
                 tranFeather.setLam(x, y, oldLam + Math.log(pE/rE));
             }
+            count ++;
+            System.out.println("count = " + count);
+            if (count > 50) {
+                break;
+            }
         }
+        count = 0;
         // 训练转移概率模型showRes
         while (condition()) {
             // 计算当前系数下的概率模型
@@ -162,6 +169,11 @@ public class HmmTrain implements ITrain{
                 double rE = showRate.rate(x)*showRes.rate(x, y);
                 showFeather.setLam(x, y, oldLam + Math.log(pE/rE));
             }
+            count ++;
+            System.out.println("count = " + count);
+            if (count > 50) {
+                break;
+            }
         }
     }
 
@@ -180,9 +192,12 @@ public class HmmTrain implements ITrain{
                 if (strArr.length != 3) {
                     continue;
                 }
-                int pState = Integer.parseInt(strArr[0]);
+                int view = Integer.parseInt(strArr[0]);
                 int cState = Integer.parseInt(strArr[1]);
-                int vState = Integer.parseInt(strArr[2]);
+                int pState = Integer.parseInt(strArr[2]);
+                if (view < 0 || cState < 0 || pState < 0) {
+                    continue;
+                }
                 // 添加转移特征到特征组
                 if(tranFilter.get(pState) == null) {
                     tranFeather.addFeather(pState, cState);
@@ -196,35 +211,35 @@ public class HmmTrain implements ITrain{
                 }
                 // 添加输出特征到特征组
                 if (showFilter.get(cState) == null) {
-                    showFeather.addFeather(cState, vState);
+                    showFeather.addFeather(cState, view);
                     Map<Integer, Integer> tmp = new HashMap<>();
-                    tmp.put(vState, 1);
+                    tmp.put(view, 1);
                     showFilter.put(cState, tmp);
                 }
-                else if (showFilter.get(cState).get(vState) == null) {
-                    showFeather.addFeather(cState, vState);
-                    showFilter.get(cState).put(vState, 1);
+                else if (showFilter.get(cState).get(view) == null) {
+                    showFeather.addFeather(cState, view);
+                    showFilter.get(cState).put(view, 1);
                 }
                 // 转移概率模型的边缘概率的先验概率累加
                 tranRate.setRate(pState, tranRate.rate(pState)+1);
                 // 转移概率模型的联合概率的先验概率累加
                 tranRate.setRate(pState, cState, tranRate.rate(pState, cState)+1);
                 // 输出概率模型的边缘概率的先验概率累加
-                showRate.setRate(cState, tranRate.rate(cState)+1);
+                showRate.setRate(cState, showRate.rate(cState)+1);
                 // 输出概率模型的联合概率的先验概率累加
-                showRate.setRate(cState, vState, tranRate.rate(cState, vState)+1);
+                showRate.setRate(cState, view, showRate.rate(cState, view)+1);
                 count ++;
             }
-            for (int i = 0; i < bNum; ++i) {
+            for (int i = 0; i < aNum; ++i) {
                 // 转移概率模型的边缘概率的先验概率
                 tranRate.setRate(i, tranRate.rate(i) / count);
                 // 输出概率模型的边缘概率的先验概率
                 showRate.setRate(i, showRate.rate(i) / count);
-                for (int j = 0; j < bNum; ++j) {
+                for (int j = 0; j < aNum; ++j) {
                     // 转移概率模型的联合概率的先验概率
                     tranRate.setRate(i, j, tranRate.rate(i, j) / count);
                 }
-                for (int j = 0; j < aNum; ++j) {
+                for (int j = 0; j < bNum; ++j) {
                     // 输出概率模型的联合概率的先验概率
                     showRate.setRate(i, j, showRate.rate(i, j) / count);
                 }
