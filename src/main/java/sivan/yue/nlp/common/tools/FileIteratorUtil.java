@@ -20,15 +20,12 @@ public class FileIteratorUtil {
 
             public Iterator<String> iterator() {
 
-                //�����ļ���������ʵ�ֵ����ӿڡ�
                 return new Iterator<String>() {
 
                     public boolean hasNext() {
-                        //�ж���һ���Ƿ�Ϊ�ա�
                         return line != null;
                     }
 
-                    //���ص�ǰ�У�ͬʱ��ȡ�ļ�����һ����Ϊ��ǰ�С�
                     public String next() {
                         String retVal = line;
                         line = getLine();
