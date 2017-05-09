@@ -13,29 +13,29 @@ public abstract class BaseViterbi implements IViterbi{
     private final int INIT_RATE = 1;
 
     /**
-     * description £º¹Û²ìĞòÁĞ-->×´Ì¬ĞòÁĞ
-     * @param views ¹Û²ìĞòÁĞ
-     * @param stateNum ÒşĞÎ×´Ì¬µÄÊıÄ¿
-     * @return ¹Û²ìĞòÁĞ¶ÔÓ¦µÄ×´Ì¬ĞòÁĞ
+     * description ï¼šè§‚å¯Ÿåºåˆ—-->çŠ¶æ€åºåˆ—
+     * @param views è§‚å¯Ÿåºåˆ—
+     * @param stateNum éšå½¢çŠ¶æ€çš„æ•°ç›®
+     * @return è§‚å¯Ÿåºåˆ—å¯¹åº”çš„çŠ¶æ€åºåˆ—
      */
     public int[] viterbi(int[] views, int stateNum) {
         int [] result = new int[views.length];
         Vector<Vector<ViterbiMeta>> vecArr = new Vector<>();
-        // init µÚÒ»¸ö¹Û²ìÖµ¶ÔÓ¦µÄ¹Û²ìĞòÁĞµÄ¸ö×´Ì¬µÄ¸ÅÂÊ
+        // init ç¬¬ä¸€ä¸ªè§‚å¯Ÿå€¼å¯¹åº”çš„è§‚å¯Ÿåºåˆ—çš„ä¸ªçŠ¶æ€çš„æ¦‚ç‡
         Vector<ViterbiMeta> initVec = new Vector<>();
         for (int state = FIRST_STATE; state < stateNum; ++state) {
             ViterbiMeta meta = new ViterbiMeta();
-            // ¼ÆËã¹Û²âÖµÎªviews[0]µÄÇé¿öÏÂ£¬´ÓINIT_STATE×ªµ½stateµÄ¸ÅÂÊ
+            // è®¡ç®—è§‚æµ‹å€¼ä¸ºviews[0]çš„æƒ…å†µä¸‹ï¼Œä»INIT_STATEè½¬åˆ°stateçš„æ¦‚ç‡
             meta.curRate = countRate(INIT_RATE, views[0], state, INIT_STATE);
             meta.preState = INIT_STATE;
             initVec.add(meta);
         }
         vecArr.add(initVec);
-        // ´ÓµÚ¶ş¸ö¹Û²âÖµµ½×îºóÒ»¸ö¹Û²âÖµ£¬¼ÆËãÆä¶ÔÓ¦µÄ×´Ì¬
+        // ä»ç¬¬äºŒä¸ªè§‚æµ‹å€¼åˆ°æœ€åä¸€ä¸ªè§‚æµ‹å€¼ï¼Œè®¡ç®—å…¶å¯¹åº”çš„çŠ¶æ€
         for (int i = 1; i < views.length; ++i) {
             Vector<ViterbiMeta> tmpVec = new Vector<>();
             Vector<ViterbiMeta> preVec = vecArr.get(i-1);
-            // ¶ÔÓÚ¹Û²âÖµview[i]µÄËùÓĞ¿ÉÄÜµÄ×´Ì¬j
+            // å¯¹äºè§‚æµ‹å€¼view[i]çš„æ‰€æœ‰å¯èƒ½çš„çŠ¶æ€j
             for (int j = FIRST_STATE; j < stateNum; ++j) {
                 ViterbiMeta meta = new ViterbiMeta();
                 meta.curRate = 0;
@@ -43,7 +43,7 @@ public abstract class BaseViterbi implements IViterbi{
                     throw new ViterbiErrException("viterbi error!");
                 }
                 for (int k = FIRST_STATE; k < stateNum; ++k) {
-                    // ÕÒµ½Ç°Ò»¸ö²½ÖèµÄ×´Ì¬k¶ÔÓ¦µÄ½á¹¹
+                    // æ‰¾åˆ°å‰ä¸€ä¸ªæ­¥éª¤çš„çŠ¶æ€kå¯¹åº”çš„ç»“æ„
                     ViterbiMeta m = preVec.get(k-1);
                     double rate = countRate(m.curRate, views[i], j, k);
                     if (rate > meta.curRate) {
@@ -55,7 +55,7 @@ public abstract class BaseViterbi implements IViterbi{
             }
             vecArr.add(tmpVec);
         }
-        // ´Ó×îºóÒ»¸ö²½Öè»ØËİµ½µÚÒ»¸ö²½Öè£¬ÕÒµ½×î¼Ñ×´Ì¬ĞòÁĞ
+        // ä»æœ€åä¸€ä¸ªæ­¥éª¤å›æº¯åˆ°ç¬¬ä¸€ä¸ªæ­¥éª¤ï¼Œæ‰¾åˆ°æœ€ä½³çŠ¶æ€åºåˆ—
         Vector<ViterbiMeta> tmpVec = vecArr.get(views.length-1);
         double rate = 0;
         int state = 0;
@@ -74,12 +74,12 @@ public abstract class BaseViterbi implements IViterbi{
     }
 
     /**
-     * ÔÚÇ°Ğò½Úµã¸ÅÂÊÈ·¶¨£¬¼ÆËãÔÚ¹Û²âÖµÏÂµÄ×ªÒÆ¸ÅÂÊ
-     * @param preRate Ç°Ğò½ÚµãµÄ×Ü¸ÅÂÊ
-     * @param vState ¹Û²âĞòÁĞµ±Ç°Î»ÖÃµÄ¹Û²âÖµ
-     * @param curState ĞòÁĞµ±Ç°Î»ÖÃµÄ×´Ì¬Öµ
-     * @param preState ĞòÁĞÇ°Ò»¸öÎ»ÖÃµÄ×´Ì¬Öµ
-     * @return ¸ÅÂÊÖµ
+     * åœ¨å‰åºèŠ‚ç‚¹æ¦‚ç‡ç¡®å®šï¼Œè®¡ç®—åœ¨è§‚æµ‹å€¼ä¸‹çš„è½¬ç§»æ¦‚ç‡
+     * @param preRate å‰åºèŠ‚ç‚¹çš„æ€»æ¦‚ç‡
+     * @param vState è§‚æµ‹åºåˆ—å½“å‰ä½ç½®çš„è§‚æµ‹å€¼
+     * @param curState åºåˆ—å½“å‰ä½ç½®çš„çŠ¶æ€å€¼
+     * @param preState åºåˆ—å‰ä¸€ä¸ªä½ç½®çš„çŠ¶æ€å€¼
+     * @return æ¦‚ç‡å€¼
      */
     protected abstract double countRate(double preRate, int vState, int curState, int preState);
 
