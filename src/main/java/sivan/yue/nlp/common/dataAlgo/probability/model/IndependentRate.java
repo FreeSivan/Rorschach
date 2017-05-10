@@ -41,8 +41,8 @@ public class IndependentRate implements IDRate{
     }
 
     @Override
-    public void setRate(int x, int y, double val) {
-        rate.put(x, y, val);
+    public void setRate(int x, int y, double val, double def) {
+        rate.put(x, y, val, def);
     }
 
     public void setRate(IDMatrix rate) {

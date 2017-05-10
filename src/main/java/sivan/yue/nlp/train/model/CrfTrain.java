@@ -54,13 +54,17 @@ public class CrfTrain implements ITrain{
     @Override
     public void train(String org, String dst, int aNum, int bNum) {
         // yi yi-1 xi
-        conRate.setRate(new SparseTMatrix(aNum, aNum, bNum, 0));
+        conRate.setRate(new SparseTMatrix(aNum, aNum, bNum));
+        conRate.setTDef(1/(double)aNum);
         // 先验概率
-        preRate.setTRate(new SparseTMatrix(aNum, aNum, bNum, 0));
+        preRate.setTRate(new SparseTMatrix(aNum, aNum, bNum));
+        preRate.setTDef(0);
         // 边缘概率
         preRate.setSRate(new SparseDMatrix(aNum, 1));
+        preRate.setSDef(0);
         // 转移特征矩阵 对应特征 yi-1, yi, xi
-        tFeather.setMatrix(new SparseTMatrix(aNum, aNum, bNum, 0));
+        tFeather.setMatrix(new SparseTMatrix(aNum, aNum, bNum));
+        tFeather.setTDef(0);
         // 状态特征矩阵 对应yi, xi
         dFeather.setMatrix(new SparseDMatrix(aNum, bNum));
         preRateTrain(org, aNum, bNum);

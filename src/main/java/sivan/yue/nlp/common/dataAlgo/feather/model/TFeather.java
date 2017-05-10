@@ -41,6 +41,13 @@ public class TFeather implements ITFeather<TMetaFeather>, ITFSets {
         matrix.put(x, y, z, val, 0);
     }
 
+    public void setTDef(double val) {
+        if (matrix == null) {
+            throw new StructErrException("DFeather Error!");
+        }
+        matrix.setDef(val);
+    }
+
     @Override
     public void addFeather(int x, int y, int z) {
         lst.add(new TMetaFeather(x, y, z));

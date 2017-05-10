@@ -57,7 +57,7 @@ public class HmmParse extends BaseParse{
             int x = Integer.parseInt(strArr[0]);
             int y = Integer.parseInt(strArr[1]);
             double rate = Double.parseDouble(strArr[2]);
-            tRate.setRate(x, y, rate);
+            tRate.setRate(x, y, rate, 0);
         }
         viterbi.settRate(tRate);
     }
@@ -75,7 +75,7 @@ public class HmmParse extends BaseParse{
             int x = Integer.parseInt(strArr[0]);
             int y = Integer.parseInt(strArr[1]);
             double rate = Double.parseDouble(strArr[2]);
-            sRate.setRate(x, y, rate);
+            sRate.setRate(x, y, rate, 0);
         }
         viterbi.setsRate(sRate);
     }

@@ -36,8 +36,8 @@ public class ConditionalDRate implements IDRate{
     }
 
     @Override
-    public void setRate(int x, int y, double val) {
-        rate.put(x, y, val);
+    public void setRate(int x, int y, double val, double def) {
+        rate.put(x, y, val, def);
     }
 
     public void setRate(IDMatrix rate) {
@@ -46,5 +46,9 @@ public class ConditionalDRate implements IDRate{
 
     public IDMatrix getRate() {
         return this.rate;
+    }
+
+    public void setDDef(double val) {
+        rate.setDef(val);
     }
 }

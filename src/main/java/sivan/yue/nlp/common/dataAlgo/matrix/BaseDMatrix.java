@@ -27,11 +27,18 @@ public abstract class BaseDMatrix implements IDMatrix {
         return getV(row, col);
     }
 
-    public void put(int row, int col, double val) {
+    /**
+     *
+     * @param row 指定的矩阵的行
+     * @param col 指定的矩阵的列
+     * @param val 存入矩阵的值
+     * @param d 默认值，用于稀疏矩阵
+     */
+    public void put(int row, int col, double val, double d) {
         if (row >= rowNum || col >= colNum) {
             throw new AccessErrException("put error");
         }
-        putV(row, col, val);
+        putV(row, col, val, d);
     }
 
     public IDMatrix mul(IDMatrix matrix) {
@@ -45,7 +52,7 @@ public abstract class BaseDMatrix implements IDMatrix {
                 for (int k = 0; k < colNum; ++k) {
                     sum+=get(i, k) * matrix.get(k, j);
                 }
-                result.put(i, j, sum);
+                result.put(i, j, sum, 0);
             }
         }
         return result;
@@ -60,7 +67,7 @@ public abstract class BaseDMatrix implements IDMatrix {
         for (int i = 0; i < rowNum; ++i) {
             for (int j = 0; j < colNum; ++j) {
                 double tmp = get(i, j) + matrix.get(i, j);
-                result.put(i, j, tmp);
+                result.put(i, j, tmp, 0);
             }
         }
         return result;
@@ -75,7 +82,7 @@ public abstract class BaseDMatrix implements IDMatrix {
         for (int i = 0; i < rowNum; ++i) {
             for (int j = 0; j < colNum; ++j) {
                 double tmp = get(i, j) - matrix.get(i, j);
-                result.put(i, j, tmp);
+                result.put(i, j, tmp, 0);
             }
         }
         return result;
@@ -117,5 +124,5 @@ public abstract class BaseDMatrix implements IDMatrix {
 
     protected abstract double getV(int row, int col);
 
-    protected abstract void putV(int row, int col, double val);
+    protected abstract void putV(int row, int col, double val, double d);
 }

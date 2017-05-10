@@ -28,8 +28,17 @@ public class DenseDMatrix extends BaseDMatrix {
     }
 
     @Override
-    protected void putV(int row, int col, double val) {
+    protected void putV(int row, int col, double val, double d) {
         data[row][col] = val;
+    }
+
+    @Override
+    public double getDef() {
+        return 0;
+    }
+
+    @Override
+    public void setDef(double def) {
     }
 
     @Override
@@ -37,25 +46,9 @@ public class DenseDMatrix extends BaseDMatrix {
         return new DenseDMatrix(getRowNum(), getColNum());
     }
 
-    /*
-    public static void main(String[] args) {
-        DenseDMatrix matrix = new DenseDMatrix(3, 3);
-        matrix.put(0, 0, 0.1);
-        matrix.put(0, 1, 0.2);
-        matrix.put(0, 2, 0.4);
-        matrix.put(1, 0, 0.2);
-        matrix.put(1, 1, 0.2);
-        matrix.put(1, 2, 0.1);
-        matrix.put(2, 0, 0.4);
-        matrix.put(2, 1, 0.1);
-        matrix.put(2, 2, 0.3);
+    @Override
+    public void export(String fileName) {
 
-        IDMatrix matrix1 = matrix.power(7);
-        matrix1.display();
-        System.out.println("--------------------");
-        matrix1.sub(matrix).display();
-        System.out.println("--------------------");
-        matrix1.add(matrix).display();
     }
-    */
+
 }

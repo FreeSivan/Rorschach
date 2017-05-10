@@ -48,8 +48,8 @@ public class JointMarginalRate implements ISRate, IDRate, ITRate{
     }
 
     @Override
-    public void setRate(int x, int y, double val) {
-        dRate.put(x, y, val);
+    public void setRate(int x, int y, double val, double def) {
+        dRate.put(x, y, val, def);
     }
 
     @Override
@@ -59,7 +59,7 @@ public class JointMarginalRate implements ISRate, IDRate, ITRate{
 
     @Override
     public void setRate(int x, double val) {
-        sRate.put(x, 0, val);
+        sRate.put(x, 0, val, 0);
     }
 
     public void setDRate(IDMatrix dRate) {
@@ -82,5 +82,17 @@ public class JointMarginalRate implements ISRate, IDRate, ITRate{
     @Override
     public void setRate(int x, int y, int z, double val, double def) {
         tRate.put(x, y, z, val, def);
+    }
+
+    public void setTDef(double val) {
+        tRate.setDef(val);
+    }
+
+    public void setDDef(double val) {
+        dRate.setDef(val);
+    }
+
+    public void setSDef(double val) {
+        sRate.setDef(val);
     }
 }

@@ -24,6 +24,7 @@ public class DFeather implements IDFeather<DMetaFeather>, IDFSets {
     public DFeather(IDMatrix matrix) {
         this.matrix = matrix;
     }
+
     @Override
     public double lambda(int x, int y) {
         if (matrix == null) {
@@ -37,7 +38,11 @@ public class DFeather implements IDFeather<DMetaFeather>, IDFSets {
         if (matrix == null) {
             throw new StructErrException("DFeather Error!");
         }
-        matrix.put(x, y, val);
+        matrix.put(x, y, val, 0);
+    }
+
+    public void setDDef(double val) {
+        matrix.setDef(val);
     }
 
     @Override

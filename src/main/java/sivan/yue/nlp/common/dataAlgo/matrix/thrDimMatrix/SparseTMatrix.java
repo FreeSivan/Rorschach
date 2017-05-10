@@ -19,11 +19,10 @@ public class SparseTMatrix extends BaseTMatrix {
 
     private double def = 0;
 
-    public SparseTMatrix(int xNum, int yNum, int zNum, double def) {
+    public SparseTMatrix(int xNum, int yNum, int zNum) {
         super(xNum, yNum, zNum);
         data = new HashMap<>();
         defData = new HashMap<>();
-        this.def = def;
     }
 
     /**
@@ -75,6 +74,16 @@ public class SparseTMatrix extends BaseTMatrix {
             defData.put(x, defTmp);
         }
         defTmp.put(y, d);
+    }
+
+    @Override
+    public double getDef() {
+        return this.def;
+    }
+
+    @Override
+    public void setDef(double val) {
+        this.def = val;
     }
 
     @Override

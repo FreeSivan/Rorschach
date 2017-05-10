@@ -43,7 +43,7 @@ public class MeParse extends BaseParse{
                 int x = Integer.parseInt(strArr[0]);
                 int y = Integer.parseInt(strArr[1]);
                 double rate = Double.parseDouble(strArr[2]);
-                rateModule.setRate(x, y, rate);
+                rateModule.setRate(x, y, rate, 0);
             }
         } catch (IOException e) {
             e.printStackTrace();

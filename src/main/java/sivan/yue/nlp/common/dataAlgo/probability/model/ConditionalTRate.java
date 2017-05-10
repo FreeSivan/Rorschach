@@ -48,4 +48,8 @@ public class ConditionalTRate implements ITRate{
     public ITMatrix getRate() {
         return this.rate;
     }
+
+    public void setTDef(double val) {
+
+    }
 }

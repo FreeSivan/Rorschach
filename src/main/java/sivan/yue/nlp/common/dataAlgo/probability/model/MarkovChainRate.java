@@ -66,7 +66,7 @@ public class MarkovChainRate implements ISRate, IDRate{
 
     @Override
     public void setRate(int x, double val) {
-        init.put(x, 0, val);
+        init.put(x, 0, val, 0);
     }
 
     /**
@@ -80,8 +80,8 @@ public class MarkovChainRate implements ISRate, IDRate{
     }
 
     @Override
-    public void setRate(int x, int y, double val) {
-        trans.put(x, y, val);
+    public void setRate(int x, int y, double val, double d) {
+        trans.put(x, y, val, d);
     }
 
     /**

@@ -2,6 +2,7 @@ package sivan.yue.nlp.common.dataAlgo.matrix.towDimMatrix;
 
 import sivan.yue.nlp.common.dataAlgo.matrix.BaseDMatrix;
 import sivan.yue.nlp.common.dataAlgo.matrix.IDMatrix;
+import sivan.yue.nlp.common.tools.FileLineWriter;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,56 +16,68 @@ public class SparseDMatrix extends BaseDMatrix {
 
     private Map<Integer, Map<Integer, Double>> data;
 
+    private Map<Integer, Double> defData;
+
+    private double def = 0;
+
     public SparseDMatrix(int m, int n) {
         super(m, n);
         data = new HashMap<>();
+        defData = new HashMap<>();
     }
 
     public double getV(int row, int col) {
-        Map<Integer, Double> tmp = data.get(row);
-        if (tmp == null) {
-            return 0;
+        if (data.get(row) != null && data.get(row).get(col) != null) {
+            return data.get(row).get(col);
         }
-        Double val = tmp.get(col);
-        if (val == null) {
-            return 0;
+        if (defData.get(row) != null) {
+            return defData.get(row);
         }
-        return val;
+        return def;
     }
 
-    public void putV(int row, int col, double val) {
+    public void putV(int row, int col, double val, double d) {
         Map<Integer, Double> tmp = data.get(row);
         if (tmp == null) {
             tmp = new HashMap<>();
             data.put(row, tmp);
         }
         tmp.put(col, val);
+        defData.put(row, d);
+    }
+
+    public double getDef() {
+        return def;
+    }
+
+    @Override
+    public void setDef(double def) {
+        this.def = def;
     }
 
     @Override
     public IDMatrix cloneSelf() {
-        return new SparseDMatrix(getRowNum(), getColNum());
+        SparseDMatrix matrix = new SparseDMatrix(getRowNum(), getColNum());
+        matrix.setDef(getDef());
+        return matrix;
     }
 
-    /*
-    public static void main(String[] args) {
-        SparseDMatrix matrix = new SparseDMatrix(3, 3);
-        matrix.put(0, 0, 0.1);
-        matrix.put(0, 1, 0.2);
-        matrix.put(0, 2, 0.4);
-        matrix.put(1, 0, 0.2);
-        matrix.put(1, 1, 0.2);
-        matrix.put(1, 2, 0.1);
-        matrix.put(2, 0, 0.4);
-        matrix.put(2, 1, 0.1);
-        matrix.put(2, 2, 0.3);
-
-        IDMatrix matrix1 = matrix.power(7);
-        matrix1.display();
-        System.out.println("--------------------");
-        matrix1.sub(matrix).display();
-        System.out.println("--------------------");
-        matrix1.add(matrix).display();
+    @Override
+    public void export(String fileName) {
+        FileLineWriter fWriter = new FileLineWriter(fileName);
+        fWriter.writeLine(""+def);
+        for (Map.Entry<Integer, Double> item : defData.entrySet()) {
+            System.out.println("key = " +  item.getKey() + "   value = " + item.getValue());
+            String line = item.getKey() + "|" + item.getValue();
+            fWriter.writeLine(line);
+        }
+        for (Map.Entry<Integer, Map<Integer, Double>> item : data.entrySet()) {
+            for (Map.Entry<Integer, Double> item1 : item.getValue().entrySet()) {
+                String line = item.getKey() + "|" + item1.getKey() + "|" + item1.getValue();
+                fWriter.writeLine(line);
+            }
+        }
+        fWriter.close();
     }
-    */
+
 }

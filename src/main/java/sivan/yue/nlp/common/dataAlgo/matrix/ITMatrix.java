@@ -41,12 +41,20 @@ public interface ITMatrix {
      */
     public int getZNum();
 
+    public double getDef();
+
+    public void setDef(double val);
+
     /**
      * description : 创建一个和自己一样的空矩阵
      * @return 新创建的空矩阵
      */
     public ITMatrix cloneSelf();
 
+    /**
+     * description : 到处数据到指定文件
+     * @param fileName 文件名
+     */
     public void export(String fileName);
 
 }

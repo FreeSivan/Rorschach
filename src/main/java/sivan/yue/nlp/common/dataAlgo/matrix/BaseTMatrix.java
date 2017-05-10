@@ -43,5 +43,6 @@ public abstract class BaseTMatrix implements ITMatrix{
     }
 
     protected abstract double getV(int x, int y, int z);
+
     protected abstract void putV(int x, int y, int z, double v, double d);
 }

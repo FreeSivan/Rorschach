@@ -31,7 +31,7 @@ public class CrfParse extends BaseParse {
     @Override
     protected void loadModel(String path) {
         rateModule = new ConditionalTRate();
-        SparseTMatrix matrix = new SparseTMatrix(viewNum, stateNum, stateNum, 0);
+        SparseTMatrix matrix = new SparseTMatrix(viewNum, stateNum, stateNum);
         rateModule.setRate(matrix);
         String fileName = path + "/"+ CConst.MEMM_NAME;
         try {

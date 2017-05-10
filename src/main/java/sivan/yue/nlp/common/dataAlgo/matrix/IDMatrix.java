@@ -19,8 +19,9 @@ public interface IDMatrix {
      * @param row 指定的矩阵的行
      * @param col 指定的矩阵的列
      * @param val 存入矩阵的值
+     * @param d 默认值，用于稀疏矩阵
      */
-    public void put(int row, int col, double val);
+    public void put(int row, int col, double val, double d);
 
     /**
      * description : 求矩阵的幂，必须是方阵
@@ -62,6 +63,10 @@ public interface IDMatrix {
      */
     public int getRowNum();
 
+    public double getDef();
+
+    public void setDef(double def);
+
     /**
      * description : 创建一个和自己一样的空矩阵
      * @return 新创建的空矩阵
@@ -72,4 +77,10 @@ public interface IDMatrix {
      * description : 打印矩阵内容
      */
     public void display();
+
+    /**
+     * description : 导出数据到指定文件
+     * @param fileName 文件名
+     */
+    public void export(String fileName);
 }

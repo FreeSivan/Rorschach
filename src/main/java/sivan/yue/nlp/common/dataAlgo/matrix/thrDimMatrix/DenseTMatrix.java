@@ -33,6 +33,16 @@ public class DenseTMatrix extends BaseTMatrix{
     }
 
     @Override
+    public double getDef() {
+        return 0;
+    }
+
+    @Override
+    public void setDef(double val) {
+
+    }
+
+    @Override
     public ITMatrix cloneSelf() {
         return new DenseTMatrix(xNum, yNum, zNum);
     }

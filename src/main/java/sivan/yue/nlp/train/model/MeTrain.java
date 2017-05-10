@@ -36,12 +36,16 @@ public class MeTrain implements ITrain{
     @Override
     public void train(String org, String dst, int aNum, int bNum) {
         conRate.setRate(new SparseDMatrix(aNum, bNum));
+        conRate.setDDef(1 / (double) aNum);
         preRate.setDRate(new SparseDMatrix(aNum, bNum));
+        preRate.setDDef(0);
         preRate.setSRate(new SparseDMatrix(aNum, 1));
+        preRate.setSDef(0);
         feathers.setMatrix(new SparseDMatrix(aNum, bNum));
+        feathers.setDDef(0);
         preRateTrain(org, aNum, bNum);
-        trainModule(aNum, bNum);
-        export(dst);
+        trainModule1(aNum, bNum);
+        export1(dst);
     }
 
     @Override
@@ -60,31 +64,26 @@ public class MeTrain implements ITrain{
         fWriter.close();
     }
 
+    public void export1(String dst) {
+        String fName = dst + "/" + CConst.ME_NAME;
+        conRate.getRate().export(fName);
+    }
+
     private void trainModule(int aNum, int bNum) {
         int count = 0;
-        while (condition()) {
+        while (true) {
             // 计算当前系数下的概率模型
-            long b = System.currentTimeMillis();
             for (int i = 0; i < aNum; ++i) {
                 int sum = 0;
                 for (int j = 0; j < bNum; ++j) {
-                    double val;
-                    if (feathers.lambda(i, j) == 0) {
-                        val = 1;
-                    }
-                    else {
-                        val = Math.exp(feathers.lambda(i, j));
-                    }
-                    conRate.setRate(i, j, val);
+                    double val = Math.exp(feathers.lambda(i, j));
+                    conRate.setRate(i, j, val, 0);
                     sum += val;
                 }
                 for (int j = 0; j < bNum; ++j) {
-                    conRate.setRate(i, j, conRate.rate(i, j)/sum);
+                    conRate.setRate(i, j, conRate.rate(i, j)/sum, 0);
                 }
             }
-            System.out.println("time = " + (System.currentTimeMillis() - b));
-
-            b = System.currentTimeMillis();
             // 迭代每一个特征
             for (DMetaFeather feather : feathers) {
                 int x = feather.getX();
@@ -96,7 +95,6 @@ public class MeTrain implements ITrain{
                 double rE = preRate.rate(x)*conRate.rate(x, y);
                 feathers.setLam(x, y, oldLam + Math.log(pE/rE));
             }
-            System.out.println("time = " + (System.currentTimeMillis() - b));
             count ++;
             System.out.println("count = " + count);
             if (count > 50) {
@@ -105,9 +103,69 @@ public class MeTrain implements ITrain{
         }
     }
 
-    private boolean condition() {
-        // TODO
-        return true;
+    private void trainModule1(int sNum, int vNum) {
+        Map<Integer, Double> sum = new HashMap<>();
+        Map<Integer, Map<Integer, Double>> preValue = new HashMap<>();
+        double defSum = vNum;
+
+        // 对于每个存在的输入xi和输出yi，将上一次乘子置为1
+        for (DMetaFeather feather : feathers) {
+            int x = feather.getX();
+            int y = feather.getY();
+            if (preValue.get(x) == null) {
+                preValue.put(x, new HashMap<Integer, Double>());
+            }
+            if (preValue.get(x).get(y) == null) {
+                preValue.get(x).put(y, (double)1);
+            }
+        }
+        int count = 0;
+        while (true) {
+            // 迭代每一个特征，先计算对应每个输入xi的sum
+            for (DMetaFeather feather : feathers) {
+                int x = feather.getX();
+                int y = feather.getY();
+                double lam = feathers.lambda(x, y);
+                double val = Math.exp(lam);
+                conRate.setRate(x, y, val, 1);
+                // 计算每个v的sum，先判断v的sum是否存在
+                Double tmpSum = sum.get(x);
+                if (tmpSum == null) {
+                    double value = defSum - 1 + val;
+                    sum.put(x, value);
+                }
+                else {
+                    double value = sum.get(x);
+                    value = value - preValue.get(x).get(y) + val;
+                    sum.put(x, value);
+                    preValue.get(x).put(y, val);
+                }
+            }
+            // 迭代每一个特征，计算当前概率
+            conRate.setDDef(1/defSum);
+            for (DMetaFeather feather : feathers) {
+                int x = feather.getX();
+                int y = feather.getY();
+                double curSum = sum.get(x);
+                conRate.setRate(x, y, conRate.rate(x, y)/curSum, 1/curSum);
+            }
+            // 根据当前概率
+            for (DMetaFeather feather : feathers) {
+                int x = feather.getX();
+                int y = feather.getY();
+                double oldLam = feathers.lambda(x, y);
+                // 计算特征的先验期望
+                double pE = preRate.rate(x, y);
+                // 计算特征的模型期望
+                double rE = preRate.rate(x)*conRate.rate(x, y);
+                feathers.setLam(x, y, oldLam + Math.log(pE/rE));
+            }
+            count ++;
+            System.out.println("count = " + count);
+            if (count > 50) {
+                break;
+            }
+        }
     }
 
     /**
@@ -140,13 +198,13 @@ public class MeTrain implements ITrain{
                     filter.get(state).put(view, 1);
                 }
                 preRate.setRate(state, preRate.rate(state) + 1);
-                preRate.setRate(state, view, preRate.rate(state, view) + 1);
+                preRate.setRate(state, view, preRate.rate(state, view) + 1, 0);
                 count ++;
             }
             for (int i = 0; i < aNum; ++i) {
                 preRate.setRate(i, preRate.rate(i)/count);
                 for (int j = 0; j < bNum; ++j) {
-                    preRate.setRate(i, j, preRate.rate(i, j) / count);
+                    preRate.setRate(i, j, preRate.rate(i, j) / count, 0);
                 }
             }
         } catch (FileNotFoundException e) {

@@ -44,13 +44,17 @@ public class MemmTrain implements ITrain{
     @Override
     public void train(String org, String dst, int sNum, int vNum) {
         // xi yi-1 yi
-        resRate.setRate(new SparseTMatrix(vNum, sNum, sNum, 1/(double)sNum));
+        resRate.setRate(new SparseTMatrix(vNum, sNum, sNum));
+        resRate.setTDef(1/(double)sNum);
         // 先验概率
-        preRate.setTRate(new SparseTMatrix(vNum, sNum, sNum, 0));
+        preRate.setTRate(new SparseTMatrix(vNum, sNum, sNum));
+        preRate.setTDef(0);
         // 边缘概率xi, yi-1
         preRate.setDRate(new SparseDMatrix(vNum, sNum));
+        preRate.setDDef(0);
         // 特征矩阵 对应特征 yi-1, yi, xi
-        feathers.setMatrix(new SparseTMatrix(vNum, sNum, sNum, 0));
+        feathers.setMatrix(new SparseTMatrix(vNum, sNum, sNum));
+        feathers.setTDef(0);
         preRateTrain(org, sNum, vNum);
         trainModule(sNum, vNum);
         export(dst);
@@ -117,6 +121,9 @@ public class MemmTrain implements ITrain{
                 int p = feather.getY();
                 int c = feather.getZ();
                 double curSum = sum.get(v).get(p);
+                if (curSum <= 0) {
+                    System.out.println("----------------");
+                }
                 resRate.setRate(v, p, c, resRate.rate(v, p, c)/curSum, 1/curSum);
             }
             // 根据当前概率
@@ -129,11 +136,14 @@ public class MemmTrain implements ITrain{
                 double pE = preRate.rate(v, p, c);
                 // 计算特征的模型期望
                 double rE = preRate.rate(v, p)*resRate.rate(v, p, c);
+                if (pE < rE) {
+                    System.out.println("----------------");
+                }
                 feathers.setLam(v, p, c, oldLam + Math.log(pE/rE));
             }
             count ++;
             System.out.println("count = " + count);
-            if (count > 15000) {
+            if (count > 50) {
                 break;
             }
         }
@@ -182,7 +192,7 @@ public class MemmTrain implements ITrain{
                     filter.get(view).get(pState).put(cState, 1);
                 }
                 // 关于输入的边缘概率的先验概率
-                preRate.setRate(view, pState, preRate.rate(view, pState) + 1);
+                preRate.setRate(view, pState, preRate.rate(view, pState) + 1, 0);
                 // 关于输入和输出的联合概率的先验概率
                 preRate.setRate(view, pState, cState, preRate.rate(view, pState, cState) + 1, 0);
                 count ++;
@@ -193,13 +203,13 @@ public class MemmTrain implements ITrain{
                 int p = feather.getY();
                 int c = feather.getZ();
                 if (filter1.get(v) == null) {
-                    preRate.setRate(v, p, preRate.rate(v, p) / count);
+                    preRate.setRate(v, p, preRate.rate(v, p) / count, 0);
                     Map<Integer, Integer> tmp = new HashMap<>();
                     tmp.put(p, 1);
                     filter1.put(v, tmp);
                 }
                 else if (filter1.get(v).get(p) == null) {
-                    preRate.setRate(v, p, preRate.rate(v, p) / count);
+                    preRate.setRate(v, p, preRate.rate(v, p) / count, 0);
                     filter1.get(v).put(p, 1);
                 }
                 preRate.setRate(v, p, c, preRate.rate(v, p, c) / count, 0);
