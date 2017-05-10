@@ -80,7 +80,7 @@ public class JointMarginalRate implements ISRate, IDRate, ITRate{
     }
 
     @Override
-    public void setRate(int x, int y, int z, double val) {
-        tRate.put(x, y, z, val);
+    public void setRate(int x, int y, int z, double val, double def) {
+        tRate.put(x, y, z, val, def);
     }
 }

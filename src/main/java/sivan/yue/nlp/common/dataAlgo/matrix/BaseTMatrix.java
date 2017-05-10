@@ -23,8 +23,8 @@ public abstract class BaseTMatrix implements ITMatrix{
     }
 
     @Override
-    public void put(int x, int y, int z, double v) {
-        putV(x, y, z, v);
+    public void put(int x, int y, int z, double v, double d) {
+        putV(x, y, z, v, d);
     }
 
     @Override
@@ -43,5 +43,5 @@ public abstract class BaseTMatrix implements ITMatrix{
     }
 
     protected abstract double getV(int x, int y, int z);
-    protected abstract void putV(int x, int y, int z, double v);
+    protected abstract void putV(int x, int y, int z, double v, double d);
 }

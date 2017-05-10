@@ -54,13 +54,13 @@ public class CrfTrain implements ITrain{
     @Override
     public void train(String org, String dst, int aNum, int bNum) {
         // yi yi-1 xi
-        conRate.setRate(new SparseTMatrix(aNum, aNum, bNum));
+        conRate.setRate(new SparseTMatrix(aNum, aNum, bNum, 0));
         // 先验概率
-        preRate.setTRate(new SparseTMatrix(aNum, aNum, bNum));
+        preRate.setTRate(new SparseTMatrix(aNum, aNum, bNum, 0));
         // 边缘概率
         preRate.setSRate(new SparseDMatrix(aNum, 1));
         // 转移特征矩阵 对应特征 yi-1, yi, xi
-        tFeather.setMatrix(new SparseTMatrix(aNum, aNum, bNum));
+        tFeather.setMatrix(new SparseTMatrix(aNum, aNum, bNum, 0));
         // 状态特征矩阵 对应yi, xi
         dFeather.setMatrix(new SparseDMatrix(aNum, bNum));
         preRateTrain(org, aNum, bNum);
@@ -95,13 +95,13 @@ public class CrfTrain implements ITrain{
                 for (int j = 0; j < bNum; ++j) {
                     for (int k = 0; k < bNum; ++k) {
                         double val = Math.exp(tFeather.lambda(i, j, k)+dFeather.lambda(i, k));
-                        conRate.setRate(i, j, k, val);
+                        conRate.setRate(i, j, k, val, 0);
                         sum += val;
                     }
                 }
                 for (int j = 0; j < bNum; ++j) {
                     for (int k = 0; k < bNum; ++k) {
-                        conRate.setRate(i, j, k, conRate.rate(i, j, k) / sum);
+                        conRate.setRate(i, j, k, conRate.rate(i, j, k) / sum, 0);
                     }
                 }
             }
@@ -174,14 +174,14 @@ public class CrfTrain implements ITrain{
                     filter.get(x).get(y1).put(y2, 1);
                 }
                 preRate.setRate(x, preRate.rate(x) + 1);
-                preRate.setRate(x, y1, y2, preRate.rate(x, y1, y2) + 1);
+                preRate.setRate(x, y1, y2, preRate.rate(x, y1, y2) + 1, 0);
                 count ++;
             }
             for (int i = 0; i < aNum; ++i) {
                 preRate.setRate(i,preRate.rate(i) / count);
                 for (int j = 0; j < aNum; ++j) {
                     for (int k = 0; k < bNum; ++k) {
-                        preRate.setRate(i, j, k, preRate.rate(i, j, k) / count);
+                        preRate.setRate(i, j, k, preRate.rate(i, j, k) / count, 0);
                     }
                 }
             }

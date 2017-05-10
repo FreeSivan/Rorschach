@@ -19,8 +19,9 @@ public interface ITMatrix {
      * @param y 指定的矩阵的y值
      * @param z 指定的矩阵的z值
      * @param v 存入矩阵的值
+     * @param v 存入矩阵的默认值
      */
-    public void put(int x, int y, int z, double v);
+    public void put(int x, int y, int z, double v, double d);
 
     /**
      * description : 获取x数
@@ -45,5 +46,7 @@ public interface ITMatrix {
      * @return 新创建的空矩阵
      */
     public ITMatrix cloneSelf();
+
+    public void export(String fileName);
 
 }

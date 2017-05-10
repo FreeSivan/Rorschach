@@ -38,7 +38,7 @@ public class TFeather implements ITFeather<TMetaFeather>, ITFSets {
         if (matrix == null) {
             throw new StructErrException("DFeather Error!");
         }
-        matrix.put(x, y, z, val);
+        matrix.put(x, y, z, val, 0);
     }
 
     @Override

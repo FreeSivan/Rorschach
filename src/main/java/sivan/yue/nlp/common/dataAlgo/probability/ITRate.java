@@ -15,5 +15,5 @@ public interface ITRate {
      */
     public double rate(int x, int y, int z);
 
-    public void setRate(int x, int y, int z, double val);
+    public void setRate(int x, int y, int z, double val, double def);
 }

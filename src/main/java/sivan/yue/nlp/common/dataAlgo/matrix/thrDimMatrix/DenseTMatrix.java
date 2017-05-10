@@ -28,12 +28,17 @@ public class DenseTMatrix extends BaseTMatrix{
     }
 
     @Override
-    protected void putV(int x, int y, int z, double v) {
+    protected void putV(int x, int y, int z, double v, double d) {
         data[x][y][z] = v;
     }
 
     @Override
     public ITMatrix cloneSelf() {
         return new DenseTMatrix(xNum, yNum, zNum);
+    }
+
+    @Override
+    public void export(String fileName) {
+
     }
 }
