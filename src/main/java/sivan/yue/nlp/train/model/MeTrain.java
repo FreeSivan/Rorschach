@@ -31,7 +31,6 @@ public class MeTrain implements ITrain{
         feathers = new DFeather();
         preRate = new JointMarginalRate();
         conRate = new ConditionalDRate();
-
     }
 
     @Override
