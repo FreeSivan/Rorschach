@@ -51,4 +51,9 @@ public class DenseDMatrix extends BaseDMatrix {
 
     }
 
+    @Override
+    public void load(String fileName) {
+
+    }
+
 }

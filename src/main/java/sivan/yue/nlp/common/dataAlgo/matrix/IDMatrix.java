@@ -83,4 +83,10 @@ public interface IDMatrix {
      * @param fileName 文件名
      */
     public void export(String fileName);
+
+    /**
+     * description : 从文件中导入数据
+     * @param fileName 文件名
+     */
+    public void load(String fileName);
 }

@@ -3,8 +3,10 @@ package sivan.yue.nlp.common.dataAlgo.matrix.thrDimMatrix;
 import javafx.beans.binding.MapExpression;
 import sivan.yue.nlp.common.dataAlgo.matrix.BaseTMatrix;
 import sivan.yue.nlp.common.dataAlgo.matrix.ITMatrix;
+import sivan.yue.nlp.common.tools.FileIteratorUtil;
 import sivan.yue.nlp.common.tools.FileLineWriter;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -110,5 +112,41 @@ public class SparseTMatrix extends BaseTMatrix {
             }
         }
         fWriter.close();
+    }
+
+    @Override
+    public void load(String fileName) {
+        try {
+            for (String str : FileIteratorUtil.readLines(fileName)) {
+                String[] strArr = str.split("\\|");
+                if (strArr.length == 1) {
+                    def = Double.parseDouble(strArr[0]);
+                }
+                else if (strArr.length == 3) {
+                    int key1 = Integer.parseInt(strArr[0]);
+                    int key2 = Integer.parseInt(strArr[1]);
+                    double value = Double.parseDouble(strArr[2]);
+                    if (defData.get(key1) == null) {
+                        defData.put(key1, new HashMap<Integer, Double>());
+                    }
+                    defData.get(key1).put(key2, value);
+                }
+                else if (strArr.length == 4) {
+                    int key1 = Integer.parseInt(strArr[0]);
+                    int key2 = Integer.parseInt(strArr[1]);
+                    int key3 = Integer.parseInt(strArr[2]);
+                    double val = Double.parseDouble(strArr[3]);
+                    if (data.get(key1) == null) {
+                        data.put(key1, new HashMap<Integer, Map<Integer, Double>>());
+                    }
+                    if (data.get(key1).get(key2) == null) {
+                        data.get(key1).put(key2, new HashMap<Integer, Double>());
+                    }
+                    data.get(key1).get(key2).put(key3, val);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

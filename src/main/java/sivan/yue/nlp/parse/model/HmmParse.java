@@ -38,7 +38,7 @@ public class HmmParse extends BaseParse{
     protected void loadModel(String path) {
         try {
             loadTRate(path);
-            loadSRate(path);
+            loadSRate1(path);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -77,6 +77,15 @@ public class HmmParse extends BaseParse{
             double rate = Double.parseDouble(strArr[2]);
             sRate.setRate(x, y, rate, 0);
         }
+        viterbi.setsRate(sRate);
+    }
+
+    private void loadSRate1(String path) {
+        String fileName = path + "/" + CConst.HMM_FILE_SHOW;
+        sRate = new ConditionalDRate();
+        SparseDMatrix matrix = new SparseDMatrix(stateNum, viewNum);
+        matrix.load(fileName);
+        sRate.setRate(matrix);
         viterbi.setsRate(sRate);
     }
 

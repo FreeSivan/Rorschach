@@ -51,4 +51,9 @@ public class DenseTMatrix extends BaseTMatrix{
     public void export(String fileName) {
 
     }
+
+    @Override
+    public void load(String fileName) {
+
+    }
 }

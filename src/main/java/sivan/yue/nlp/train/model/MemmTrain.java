@@ -121,9 +121,6 @@ public class MemmTrain implements ITrain{
                 int p = feather.getY();
                 int c = feather.getZ();
                 double curSum = sum.get(v).get(p);
-                if (curSum <= 0) {
-                    System.out.println("----------------");
-                }
                 resRate.setRate(v, p, c, resRate.rate(v, p, c)/curSum, 1/curSum);
             }
             // 根据当前概率
@@ -136,9 +133,6 @@ public class MemmTrain implements ITrain{
                 double pE = preRate.rate(v, p, c);
                 // 计算特征的模型期望
                 double rE = preRate.rate(v, p)*resRate.rate(v, p, c);
-                if (pE < rE) {
-                    System.out.println("----------------");
-                }
                 feathers.setLam(v, p, c, oldLam + Math.log(pE/rE));
             }
             count ++;

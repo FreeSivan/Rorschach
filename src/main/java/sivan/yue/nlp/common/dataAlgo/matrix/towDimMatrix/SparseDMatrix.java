@@ -2,8 +2,10 @@ package sivan.yue.nlp.common.dataAlgo.matrix.towDimMatrix;
 
 import sivan.yue.nlp.common.dataAlgo.matrix.BaseDMatrix;
 import sivan.yue.nlp.common.dataAlgo.matrix.IDMatrix;
+import sivan.yue.nlp.common.tools.FileIteratorUtil;
 import sivan.yue.nlp.common.tools.FileLineWriter;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -67,7 +69,6 @@ public class SparseDMatrix extends BaseDMatrix {
         FileLineWriter fWriter = new FileLineWriter(fileName);
         fWriter.writeLine(""+def);
         for (Map.Entry<Integer, Double> item : defData.entrySet()) {
-            System.out.println("key = " +  item.getKey() + "   value = " + item.getValue());
             String line = item.getKey() + "|" + item.getValue();
             fWriter.writeLine(line);
         }
@@ -78,6 +79,34 @@ public class SparseDMatrix extends BaseDMatrix {
             }
         }
         fWriter.close();
+    }
+
+    @Override
+    public void load(String fileName) {
+        try {
+            for (String str : FileIteratorUtil.readLines(fileName)) {
+                String[] strArr = str.split("\\|");
+                if (strArr.length == 1) {
+                    def = Double.parseDouble(strArr[0]);
+                }
+                else if (strArr.length == 2) {
+                    int key = Integer.parseInt(strArr[0]);
+                    double value = Double.parseDouble(strArr[1]);
+                    defData.put(key, value);
+                }
+                else if (strArr.length == 3) {
+                    int key1 = Integer.parseInt(strArr[0]);
+                    int key2 = Integer.parseInt(strArr[1]);
+                    double value = Double.parseDouble(strArr[2]);
+                    if (data.get(key1) == null) {
+                        data.put(key1, new HashMap<Integer, Double>());
+                    }
+                    data.get(key1).put(key2, value);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }
