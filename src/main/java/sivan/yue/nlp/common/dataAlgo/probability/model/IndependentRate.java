@@ -45,6 +45,11 @@ public class IndependentRate implements IDRate{
         rate.put(x, y, val, def);
     }
 
+    @Override
+    public void setRate(int x, int y, double val) {
+        rate.put(x, y, val, 0);
+    }
+
     public void setRate(IDMatrix rate) {
         this.rate = rate;
         setNum(rate.getRowNum());

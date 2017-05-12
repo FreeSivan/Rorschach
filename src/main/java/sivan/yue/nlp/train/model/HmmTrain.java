@@ -122,11 +122,11 @@ public class HmmTrain implements ITrain{
                 int sum = 0;
                 for (int j = 0; j < aNum; ++j) {
                     double val = Math.exp(tranFeather.lambda(i, j));
-                    tranRes.setRate(i, j, val, 0);
+                    tranRes.setRate(i, j, val);
                     sum += val;
                 }
                 for (int j = 0; j < aNum; ++j) {
-                    tranRes.setRate(i, j, tranRes.rate(i, j)/sum, 0);
+                    tranRes.setRate(i, j, tranRes.rate(i, j)/sum);
                 }
             }
             // 迭代每一个特征
@@ -157,11 +157,11 @@ public class HmmTrain implements ITrain{
                 int sum = 0;
                 for (int j = 0; j < bNum; ++j) {
                     double val = Math.exp(showFeather.lambda(i, j));
-                    showRes.setRate(i, j, val, 0);
+                    showRes.setRate(i, j, val);
                     sum += val;
                 }
                 for (int j = 0; j < bNum; ++j) {
-                    showRes.setRate(i, j, showRes.rate(i, j)/sum, 0);
+                    showRes.setRate(i, j, showRes.rate(i, j)/sum);
                 }
             }
             // 迭代每一个特征
@@ -290,11 +290,11 @@ public class HmmTrain implements ITrain{
                 // 转移概率模型的边缘概率的先验概率累加
                 tranRate.setRate(pState, tranRate.rate(pState)+1);
                 // 转移概率模型的联合概率的先验概率累加
-                tranRate.setRate(pState, cState, tranRate.rate(pState, cState)+1, 0);
+                tranRate.setRate(pState, cState, tranRate.rate(pState, cState)+1);
                 // 输出概率模型的边缘概率的先验概率累加
                 showRate.setRate(cState, showRate.rate(cState)+1);
                 // 输出概率模型的联合概率的先验概率累加
-                showRate.setRate(cState, view, showRate.rate(cState, view)+1, 0);
+                showRate.setRate(cState, view, showRate.rate(cState, view)+1);
                 count ++;
             }
             for (int i = 0; i < aNum; ++i) {
@@ -304,11 +304,11 @@ public class HmmTrain implements ITrain{
                 showRate.setRate(i, showRate.rate(i) / count);
                 for (int j = 0; j < aNum; ++j) {
                     // 转移概率模型的联合概率的先验概率
-                    tranRate.setRate(i, j, tranRate.rate(i, j) / count, 0);
+                    tranRate.setRate(i, j, tranRate.rate(i, j) / count);
                 }
                 for (int j = 0; j < bNum; ++j) {
                     // 输出概率模型的联合概率的先验概率
-                    showRate.setRate(i, j, showRate.rate(i, j) / count, 0);
+                    showRate.setRate(i, j, showRate.rate(i, j) / count);
                 }
             }
         } catch (FileNotFoundException e) {

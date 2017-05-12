@@ -41,6 +41,11 @@ public class ConditionalTRate implements ITRate{
         rate.put(x, y, z, val, def);
     }
 
+    @Override
+    public void setRate(int x, int y, int z, double val) {
+        rate.put(x, y, z, val, 0);
+    }
+
     public void setRate(ITMatrix rate) {
         this.rate = rate;
     }
@@ -50,6 +55,6 @@ public class ConditionalTRate implements ITRate{
     }
 
     public void setTDef(double val) {
-
+        rate.setDef(val);
     }
 }

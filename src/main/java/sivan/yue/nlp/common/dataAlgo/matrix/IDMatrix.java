@@ -23,6 +23,8 @@ public interface IDMatrix {
      */
     public void put(int row, int col, double val, double d);
 
+    public void put(int row, int col, double val);
+
     /**
      * description : 求矩阵的幂，必须是方阵
      * @param n 幂的次数

@@ -116,6 +116,7 @@ public class MemmTrain implements ITrain{
                 }
             }
             // 迭代每一个特征，计算当前概率
+            resRate.setTDef(1/defSum);
             for (TMetaFeather feather : feathers) {
                 int v = feather.getX();
                 int p = feather.getY();
@@ -166,7 +167,6 @@ public class MemmTrain implements ITrain{
                 if (view < 0 || cState < 0 || pState < 0) {
                     continue;
                 }
-                System.out.println("view = " + view + " cState = " + cState + " pState = " + pState);
                 if (filter.get(view) == null) {
                     feathers.addFeather(view, pState, cState);
                     Map<Integer, Map<Integer, Integer>> tmp = new HashMap<>();
@@ -186,9 +186,9 @@ public class MemmTrain implements ITrain{
                     filter.get(view).get(pState).put(cState, 1);
                 }
                 // 关于输入的边缘概率的先验概率
-                preRate.setRate(view, pState, preRate.rate(view, pState) + 1, 0);
+                preRate.setRate(view, pState, preRate.rate(view, pState) + 1);
                 // 关于输入和输出的联合概率的先验概率
-                preRate.setRate(view, pState, cState, preRate.rate(view, pState, cState) + 1, 0);
+                preRate.setRate(view, pState, cState, preRate.rate(view, pState, cState) + 1);
                 count ++;
             }
             Map<Integer, Map<Integer, Integer>> filter1 = new HashMap<>();
@@ -197,16 +197,16 @@ public class MemmTrain implements ITrain{
                 int p = feather.getY();
                 int c = feather.getZ();
                 if (filter1.get(v) == null) {
-                    preRate.setRate(v, p, preRate.rate(v, p) / count, 0);
+                    preRate.setRate(v, p, preRate.rate(v, p) / count);
                     Map<Integer, Integer> tmp = new HashMap<>();
                     tmp.put(p, 1);
                     filter1.put(v, tmp);
                 }
                 else if (filter1.get(v).get(p) == null) {
-                    preRate.setRate(v, p, preRate.rate(v, p) / count, 0);
+                    preRate.setRate(v, p, preRate.rate(v, p) / count);
                     filter1.get(v).put(p, 1);
                 }
-                preRate.setRate(v, p, c, preRate.rate(v, p, c) / count, 0);
+                preRate.setRate(v, p, c, preRate.rate(v, p, c) / count);
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();

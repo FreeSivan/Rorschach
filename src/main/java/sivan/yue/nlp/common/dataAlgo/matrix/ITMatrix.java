@@ -23,6 +23,8 @@ public interface ITMatrix {
      */
     public void put(int x, int y, int z, double v, double d);
 
+    public void put(int x, int y, int z, double v);
+
     /**
      * description : 获取x数
      * @return 矩阵的行数

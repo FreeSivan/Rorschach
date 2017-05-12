@@ -27,6 +27,10 @@ public abstract class BaseTMatrix implements ITMatrix{
         putV(x, y, z, v, d);
     }
 
+    public void put(int x, int y, int z, double v) {
+        putV(x, y, z, v, 0);
+    }
+
     @Override
     public int getXNum() {
         return this.xNum;

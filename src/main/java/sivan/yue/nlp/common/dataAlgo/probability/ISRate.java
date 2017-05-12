@@ -13,5 +13,8 @@ public interface ISRate {
      */
     public double rate(int x);
 
+    public void setRate(int x, double val, double d);
+
     public void setRate(int x, double val);
+
 }

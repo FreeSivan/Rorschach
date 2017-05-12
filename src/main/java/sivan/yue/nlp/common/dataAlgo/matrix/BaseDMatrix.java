@@ -41,6 +41,13 @@ public abstract class BaseDMatrix implements IDMatrix {
         putV(row, col, val, d);
     }
 
+    public void put(int row, int col, double val) {
+        if (row >= rowNum || col >= colNum) {
+            throw new AccessErrException("put error");
+        }
+        putV(row, col, val, 0);
+    }
+
     public IDMatrix mul(IDMatrix matrix) {
         if (colNum != matrix.getRowNum()) {
             throw new MatrixErrException("mul error");

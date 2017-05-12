@@ -198,13 +198,13 @@ public class MeTrain implements ITrain{
                     filter.get(state).put(view, 1);
                 }
                 preRate.setRate(state, preRate.rate(state) + 1);
-                preRate.setRate(state, view, preRate.rate(state, view) + 1, 0);
+                preRate.setRate(state, view, preRate.rate(state, view) + 1);
                 count ++;
             }
             for (int i = 0; i < aNum; ++i) {
                 preRate.setRate(i, preRate.rate(i)/count);
                 for (int j = 0; j < bNum; ++j) {
-                    preRate.setRate(i, j, preRate.rate(i, j) / count, 0);
+                    preRate.setRate(i, j, preRate.rate(i, j) / count);
                 }
             }
         } catch (FileNotFoundException e) {
