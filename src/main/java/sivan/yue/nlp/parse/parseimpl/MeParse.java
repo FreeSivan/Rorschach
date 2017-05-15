@@ -1,8 +1,8 @@
-package sivan.yue.nlp.parse.model;
+package sivan.yue.nlp.parse.parseimpl;
 
 import sivan.yue.nlp.common.dataAlgo.matrix.towDimMatrix.SparseDMatrix;
 import sivan.yue.nlp.common.dataAlgo.probability.model.ConditionalDRate;
-import sivan.yue.nlp.common.dataAlgo.viterbi.module.MeViterbi;
+import sivan.yue.nlp.parse.viterbiImpl.MeViterbi;
 import sivan.yue.nlp.common.tools.CConst;
 import sivan.yue.nlp.common.tools.FileIteratorUtil;
 import sivan.yue.nlp.parse.BaseParse;

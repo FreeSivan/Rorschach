@@ -1,4 +1,4 @@
-package sivan.yue.nlp.common.dataAlgo.viterbi;
+package sivan.yue.nlp.parse;
 
 import sivan.yue.nlp.common.exception.ViterbiErrException;
 
@@ -7,7 +7,7 @@ import java.util.Vector;
 /**
  * Created by xiwen.yxw on 2017/4/1.
  */
-public abstract class BaseViterbi implements IViterbi{
+public abstract class BaseViterbi implements IViterbi {
     private final int INIT_STATE = 0;
     private final int FIRST_STATE = 1;
     private final int INIT_RATE = 1;

@@ -1,7 +1,7 @@
-package sivan.yue.nlp.common.dataAlgo.viterbi.module;
+package sivan.yue.nlp.parse.viterbiImpl;
 
 import sivan.yue.nlp.common.dataAlgo.probability.model.ConditionalDRate;
-import sivan.yue.nlp.common.dataAlgo.viterbi.BaseViterbi;
+import sivan.yue.nlp.parse.BaseViterbi;
 import sivan.yue.nlp.common.exception.StructErrException;
 
 /**

@@ -1,8 +1,8 @@
-package sivan.yue.nlp.parse.model;
+package sivan.yue.nlp.parse.parseimpl;
 
 import sivan.yue.nlp.common.dataAlgo.matrix.thrDimMatrix.SparseTMatrix;
 import sivan.yue.nlp.common.dataAlgo.probability.model.ConditionalTRate;
-import sivan.yue.nlp.common.dataAlgo.viterbi.module.CrfViterbi;
+import sivan.yue.nlp.parse.viterbiImpl.MemmViterbi;
 import sivan.yue.nlp.common.tools.CConst;
 import sivan.yue.nlp.common.tools.FileIteratorUtil;
 import sivan.yue.nlp.parse.BaseParse;
@@ -12,14 +12,14 @@ import java.io.IOException;
 /**
  * Created by xiwen.yxw on 2017/3/28.
  */
-public class CrfParse extends BaseParse {
+public class MemmParse extends BaseParse {
 
     private ConditionalTRate rateModule;
 
-    private CrfViterbi viterbi = new CrfViterbi();
+    private MemmViterbi viterbi = new MemmViterbi();
 
-    public CrfParse(ConditionalTRate rateModule) {
-        this.rateModule = rateModule;
+    public MemmParse(ConditionalTRate rate) {
+        this.rateModule = rate;
         viterbi.setRate(rateModule);
     }
 
@@ -56,8 +56,8 @@ public class CrfParse extends BaseParse {
         return rateModule;
     }
 
-    public void setRateModule(ConditionalTRate rateModule) {
-        this.rateModule = rateModule;
+    public void setRateModule(ConditionalTRate rate) {
+        this.rateModule = rate;
         viterbi.setRate(rateModule);
     }
 }

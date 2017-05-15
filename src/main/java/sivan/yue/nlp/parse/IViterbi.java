@@ -1,4 +1,4 @@
-package sivan.yue.nlp.common.dataAlgo.viterbi;
+package sivan.yue.nlp.parse;
 
 /**
  * Created by xiwen.yxw on 2017/4/1.

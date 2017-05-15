@@ -1,6 +1,6 @@
 package sivan.yue.nlp.parse;
 
-import sivan.yue.nlp.parse.model.HmmParse;
+import sivan.yue.nlp.parse.parseimpl.HmmParse;
 
 /**
  * Created by xiwen.yxw on 2017/5/8.
