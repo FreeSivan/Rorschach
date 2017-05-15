@@ -130,11 +130,16 @@ public class CrfTrain implements ITrain{
                 // 计算特征的先验期望和模型期望
                 double pE = 0;
                 double rE = 0;
+                double count = 0;
                 for (int i = 0; i < aNum; ++i) {
+                    if (tFeather.lambda(x, y, i) == 0) {
+                        continue;
+                    }
                     pE += preRate.rate(x, y, i);
                     rE += preRate.rate(x)*conRate.rate(x, y, i);
+                    count ++;
                 }
-                dFeather.setLam(x, y, oldLam + Math.log(pE/rE));
+                dFeather.setLam(x, y, oldLam + (1/count)*Math.log(pE/rE));
             }
         }
     }
@@ -218,11 +223,16 @@ public class CrfTrain implements ITrain{
                 // 计算特征的先验期望和模型期望
                 double pE = 0;
                 double rE = 0;
+                double tmp = 0;
                 for (int i = 0; i < sNum; ++i) {
+                    if (tFeather.lambda(x, y, i) == 0) {
+                        continue;
+                    }
+                    tmp ++;
                     pE += preRate.rate(x, y, i);
                     rE += preRate.rate(x)*conRate.rate(x, y, i);
                 }
-                dFeather.setLam(x, y, oldLam + Math.log(pE/rE));
+                dFeather.setLam(x, y, oldLam + (1/tmp)*Math.log(pE/rE));
             }
             count ++;
             System.out.println("count = " + count);
