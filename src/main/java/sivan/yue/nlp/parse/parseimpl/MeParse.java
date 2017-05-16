@@ -30,6 +30,10 @@ public class MeParse extends BaseParse{
 
     @Override
     protected void loadModel(String path) {
+        loadModel2(path);
+    }
+
+    private void loadModel1(String path) {
         rateModule = new ConditionalDRate();
         SparseDMatrix matrix = new SparseDMatrix(stateNum, viewNum);
         rateModule.setRate(matrix);
@@ -48,6 +52,15 @@ public class MeParse extends BaseParse{
         } catch (IOException e) {
             e.printStackTrace();
         }
+        viterbi.setRate(rateModule);
+    }
+
+    private void loadModel2(String path) {
+        String fileName = path + "/" + CConst.HMM_FILE_SHOW;
+        rateModule = new ConditionalDRate();
+        SparseDMatrix matrix = new SparseDMatrix(stateNum, viewNum);
+        matrix.load(fileName);
+        rateModule.setRate(matrix);
         viterbi.setRate(rateModule);
     }
 

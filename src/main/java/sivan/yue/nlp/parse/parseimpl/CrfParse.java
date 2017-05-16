@@ -30,6 +30,10 @@ public class CrfParse extends BaseParse {
 
     @Override
     protected void loadModel(String path) {
+        loadModel2(path);
+    }
+
+    private void loadModel1(String path) {
         rateModule = new ConditionalTRate();
         SparseTMatrix matrix = new SparseTMatrix(viewNum, stateNum, stateNum);
         rateModule.setRate(matrix);
@@ -49,6 +53,15 @@ public class CrfParse extends BaseParse {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        viterbi.setRate(rateModule);
+    }
+
+    private void loadModel2(String path) {
+        String fileName = path + "/" + CConst.MEMM_NAME;
+        rateModule = new ConditionalTRate();
+        SparseTMatrix matrix = new SparseTMatrix(viewNum, stateNum, stateNum);
+        matrix.load(fileName);
+        rateModule.setRate(matrix);
         viterbi.setRate(rateModule);
     }
 

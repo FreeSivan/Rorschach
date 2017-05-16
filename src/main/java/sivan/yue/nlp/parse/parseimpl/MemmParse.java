@@ -1,6 +1,8 @@
 package sivan.yue.nlp.parse.parseimpl;
 
 import sivan.yue.nlp.common.dataAlgo.matrix.thrDimMatrix.SparseTMatrix;
+import sivan.yue.nlp.common.dataAlgo.matrix.towDimMatrix.SparseDMatrix;
+import sivan.yue.nlp.common.dataAlgo.probability.model.ConditionalDRate;
 import sivan.yue.nlp.common.dataAlgo.probability.model.ConditionalTRate;
 import sivan.yue.nlp.parse.viterbiImpl.MemmViterbi;
 import sivan.yue.nlp.common.tools.CConst;
@@ -30,6 +32,10 @@ public class MemmParse extends BaseParse {
 
     @Override
     protected void loadModel(String path) {
+        loadModel2(path);
+    }
+
+    private void loadModel1(String path) {
         rateModule = new ConditionalTRate();
         SparseTMatrix matrix = new SparseTMatrix(viewNum, stateNum, stateNum);
         rateModule.setRate(matrix);
@@ -49,6 +55,15 @@ public class MemmParse extends BaseParse {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        viterbi.setRate(rateModule);
+    }
+
+    private void loadModel2(String path) {
+        String fileName = path + "/" + CConst.MEMM_NAME;
+        rateModule = new ConditionalTRate();
+        SparseTMatrix matrix = new SparseTMatrix(viewNum, stateNum, stateNum);
+        matrix.load(fileName);
+        rateModule.setRate(matrix);
         viterbi.setRate(rateModule);
     }
 
